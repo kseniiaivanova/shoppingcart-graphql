@@ -1,0 +1,44 @@
+type Item {
+  id: ID!
+  name: String!
+  description: String!
+  price: Int!
+}
+
+type ShoppingCart {
+  id: ID!
+  total: Int
+  items: [Item]
+}
+
+type DeletedResourceResponse {
+  deletedId: ID
+  success: Boolean
+}
+
+type Query {
+  getItemById(itemId: ID!): Item
+
+  getShoppingCartById(shoppingCartId: ID!): ShoppingCart
+}
+
+type Mutation {
+  createCart(input: ShoppingCartInput): ShoppingCart
+  createItem(name: String!, description: String!, price: Int!): Item
+  updateItem(input: ItemInput): Item
+  addToCart(itemId: ID!, cartId: ID!): ShoppingCart
+  removeFromCart(itemId: ID!, cartId: ID!): ShoppingCart
+  deleteShoppingCart(shoppingCartId: ID!): DeletedResourceResponse
+}
+
+input ItemInput {
+  id: ID
+  name: String
+  description: String
+  price: Int
+}
+
+input ShoppingCartInput {
+  cartId: ID!
+  total: Int
+}
