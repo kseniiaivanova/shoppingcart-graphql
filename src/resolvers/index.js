@@ -91,29 +91,23 @@ exports.resolvers = {
     createCart: async (_, args) => {
       const newshoppingCart = {
         id: crypto.randomUUID(),
-        total: args.input.total || 0,
-        items: [],
+        total: args.total || 0,
+        items: args.items || [],
       };
-
+      
+      
       let filePath = path.join(
         shoppingCartsDirectory,
         `${newshoppingCart.id}.json`
       );
+      
 
-      let idExists = true;
-      while (idExists) {
-        const exists = await fileExists(filePath);
-        console.log(exists, newshoppingCart.id);
-        if (exists) {
-          newshoppingCart.id = crypto.randomUUID();
-          filePath = path.join(itemDirectory, `${newshoppingCart.id}.json`);
-        }
-        idExists = exists;
-      }
+    const exists =  await fileExists(filePath)
 
-      await fsPromises.writeFile(filePath, JSON.stringify(newshoppingCart));
+   if(exists) return new GraphQLError('Cart already exists')
 
-      return newshoppingCart;
+   await fsPromises.writeFile(filePath, JSON.stringify(newshoppingCart))
+   return newshoppingCart;
     },
 
     updateItem: async (_, args) => {

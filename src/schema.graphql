@@ -23,7 +23,7 @@ type Query {
 }
 
 type Mutation {
-  createCart(input: ShoppingCartInput): ShoppingCart
+  createCart(id: ID!): ShoppingCart
   createItem(name: String!, description: String!, price: Int!): Item
   updateItem(input: ItemInput): Item
   addToCart(itemId: ID!, cartId: ID!): ShoppingCart
@@ -38,7 +38,3 @@ input ItemInput {
   price: Int
 }
 
-input ShoppingCartInput {
-  cartId: ID!
-  total: Int
-}
